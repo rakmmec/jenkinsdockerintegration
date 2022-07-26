@@ -15,18 +15,10 @@ pipeline{
 			}
 		}
 
-		stage('Login') {
-
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		
+		stage('Push image') {
+			withDockerRegistry([ credentialsId: "docker-hub-credentials", url: "" ]) {
+			bat "docker push rak161186/teamcitydocker:build"
 			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push rak161186/testingapp:latest'
-			}
-		}
 	}
 }
